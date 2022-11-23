@@ -1,3 +1,8 @@
+/*
+Prabhat Sanjay Singh
+Dvi:- A
+PRN:-1132220727
+ */
 class InvalidDurability extends Exception{
     InvalidDurability(){
         System.out.println("-**-Exception occured : Durability must be greater than 0 and less than or equal to 1-**-");
@@ -50,23 +55,23 @@ abstract class Equipment{
 class BatteryPoweredEquipment extends Equipment{
     private int warranty;
     BatteryPoweredEquipment(String make, String model, int purchaseYear,int warranty) {
-    super(make, model, purchaseYear); 
+        super(make, model, purchaseYear);
     }
-        public void setWarranty(int warranty) throws InvalidWarranty{
-            this.warranty=warranty;
-            if(warranty<=0)
-            {
-                //throws exception if warranty is less than or equal to 0
-                throw new InvalidWarranty();
-            }
+    public void setWarranty(int warranty) throws InvalidWarranty{
+        this.warranty=warranty;
+        if(warranty<=0)
+        {
+            //throws exception if warranty is less than or equal to 0
+            throw new InvalidWarranty();
         }
-        public int getWarranty(){
-            return warranty;
-        }
-        public int replacementYear(){
-            int replacementyear=warranty+super.getPurchaseYear();
-            return replacementyear;
-        }
+    }
+    public int getWarranty(){
+        return warranty;
+    }
+    public int replacementYear(){
+        int replacementyear=warranty+super.getPurchaseYear();
+        return replacementyear;
+    }
 }
 
 
@@ -97,18 +102,18 @@ class StandardEquipment extends Equipment{
     private double durability;
 
     //constant-value: maximum lifespan
-    final int maximumRetention=7;
+    final int maximumRetention=6;
     StandardEquipment(String make, String model, int purchaseYear,double durability) {
         super(make, model, purchaseYear);
     }
 
     public void setDurability(double durability) throws InvalidDurability{
         this.durability=durability;
-        if(durability==0 && durability<1 || durability>1)
-            {
-                //throws exception if durability is less than 0 and greater than or equal to 1
-                throw new InvalidDurability();
-            }
+        if(durability<0 && durability>1)
+        {
+            //throws exception if durability is less than 0 and greater than or equal to 1
+            throw new InvalidDurability();
+        }
     }
     public double getDurability(){
         return durability;
@@ -116,7 +121,7 @@ class StandardEquipment extends Equipment{
     public int replacementYear() {
         int replacementyear=(int) (maximumRetention*durability+super.getPurchaseYear());
         return replacementyear;
-    }   
+    }
 }
 
 public class ReplacementTest{
@@ -126,35 +131,35 @@ public class ReplacementTest{
         BatteryPoweredEquipment bpe=new BatteryPoweredEquipment(null, null, 0, 0);
 
         try{
-            se.setMake("Binnings Rake");
-            se.setModel("GSM");
+            se.setMake("Binnings");
+            se.setModel("Rake");
             se.setPurchaseYear(2017);
             se.setDurability(1);
-            System.out.println("\n"+se.showDetails()+"\nReplacement Year : "+se.replacementYear());
+            System.out.println("\n"+se.showDetails()+"\nReplacement Year : "+se.replacementYear()+"\n");
         }
         catch(InvalidDurability e)
         {
             System.out.println(e.getMessage());
         }
         try{
-            se.setMake("Binnings Spade");
-            se.setModel("RAK");
+            se.setMake("Binnings");
+            se.setModel("Spade");
             se.setPurchaseYear(2019);
             se.setDurability(0);
             System.out.println("\n"+se.showDetails()+"\nReplacement Year : "+se.replacementYear());
         }
         catch(InvalidDurability e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(se.showDetails()+"\nReplacement Year : "+se.replacementYear());
         }
         try{
-            fpe.setMake("Botch Mower");
-            fpe.setModel("Rotak 40");
+            fpe.setMake("Botch");
+            fpe.setModel("Mower");
             fpe.setPurchaseYear(2020);
             fpe.setUsage(200);
             System.out.println("\n"+fpe.showDetails()+"\nReplacement Year : "+fpe.replacementYear());
-            fpe.setMake("Havana Chain Saw");
-            fpe.setModel("Rotak 22");
+            fpe.setMake("Havana Chain");
+            fpe.setModel("Saw");
             fpe.setPurchaseYear(2019);
             fpe.setUsage(300);
             System.out.println("\n"+fpe.showDetails()+"\nReplacement Year : "+fpe.replacementYear());
@@ -163,26 +168,26 @@ public class ReplacementTest{
             System.out.println(e);
         }
         try{
-            bpe.setMake("Nikita Edge Trimmer");
-            bpe.setModel("RBC411U");
+            bpe.setMake("Nikita Edge");
+            bpe.setModel("Trimmer");
             bpe.setPurchaseYear(2021);
             bpe.setWarranty(3);
-            System.out.println("\n"+bpe.showDetails()+"\nReplacement Year :"+bpe.replacementYear());
+            System.out.println("\n"+bpe.showDetails()+"\nReplacement Year :"+bpe.replacementYear()+"\n");
         }
         catch(InvalidWarranty e)
         {
             System.out.println(e.getMessage());
         }
         try{
-            bpe.setMake("Nikita Brush Cutter");
-            bpe.setModel("RBC411U");
+            bpe.setMake("Nikita Brush");
+            bpe.setModel("Cutter");
             bpe.setPurchaseYear(2020);
             bpe.setWarranty(0);
             System.out.println("\n"+bpe.showDetails()+"\nReplacement Year :"+bpe.replacementYear());
         }
         catch(InvalidWarranty e)
         {
-            System.out.println(e.getMessage());
+            System.out.println(bpe.showDetails()+"\nReplacement Year :"+bpe.replacementYear());
         }
     }
 }
